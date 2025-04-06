@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+   font-family: 'Poppins', sans-serif;
+   scroll-behavior: smooth;
+}
+
+.gradient-bg {
+   background: linear-gradient(135deg, #FFEB3B 0%, #FFF59D 100%);
+}
+
+.card-hover:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+   background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
+}
+
+.btn-primary:hover {
+   background: linear-gradient(135deg, #8E24AA 0%, #5E35B1 100%);
+}
+
+.animate-float {
+   animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+   0% {
+      transform: translateY(0px);
+   }
+
+   50% {
+      transform: translateY(-15px);
+   }
+
+   100% {
+      transform: translateY(0px);
+   }
+}
+
+.service-card:hover .icon-container {
+   background-color: #9C27B0;
+   color: white;
+}
+
+.service-card:hover .icon-container i {
+   transform: scale(1.2);
+}
+
+.testimonial-slider {
+   overflow: hidden;
+   position: relative;
+}
+
+/* .testimonial-slide {
+   animation: slideAnimation 20s infinite linear;
+} */
+
+@keyframes slideAnimation {
+
+   0%,
+   25% {
+      transform: translateX(0);
+   }
+
+   30%,
+   50% {
+      transform: translateX(-100%);
+   }
+
+   55%,
+   75% {
+      transform: translateX(-200%);
+   }
+
+   80%,
+   100% {
+      transform: translateX(0);
+   }
+}
+
+.scroll-reveal {
+   opacity: 0;
+   transform: translateY(20px);
+   transition: all 0.6s ease-out;
+}
+
+.scroll-reveal.active {
+   opacity: 1;
+   transform: translateY(0);
+}
