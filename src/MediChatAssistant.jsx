@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { marked } from "marked";
 
-
+const api_key = import.meta.env.REACT_APP_API_KEY;
 const MediChatAssistant = () => {
   const [messageInput, setMessageInput] = useState("");
   const [chatHistoryArray, setChatHistoryArray] = useState([]);
@@ -61,53 +61,52 @@ const MediChatAssistant = () => {
     fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization:
-          "Bearer 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",
-        "Content-Type": "application/json",
+      Authorization: `Bearer ${api_key}`,
+      "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-001",
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a helpful medical assistant AI. Provide accurate health information but always remind users to consult healthcare professionals for medical advice. Do not diagnose conditions.",
-          },
-          {
-            role: "user",
-            content: messageInput,
-          },
-        ],
+      model: "google/gemini-2.0-flash-001",
+      messages: [
+        {
+        role: "system",
+        content:
+          "You are a helpful medical assistant AI. Provide accurate health information but always remind users to consult healthcare professionals for medical advice. Do not diagnose conditions.",
+        },
+        {
+        role: "user",
+        content: messageInput,
+        },
+      ],
       }),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
-        }
-        return response.json();
+      if (!response.ok) {
+        throw new Error("Network response was not ok " + response.statusText);
+      }
+      return response.json();
       })
       .then((data) => {
-        // Hide status
-        setStatusVisible(false);
+      // Hide status
+      setStatusVisible(false);
 
-        // Convert the Markdown response to HTML
-        const markdownContent = data.choices[0].message.content;
-        const htmlContent = marked(markdownContent);
+      // Convert the Markdown response to HTML
+      const markdownContent = data.choices[0].message.content;
+      const htmlContent = marked(markdownContent);
 
-        // Add bot response to chat
-        addMessage(htmlContent);
-        // Store bot response in chat history array
-        setChatHistoryArray((prev) => [
-          ...prev,
-          { role: "bot", content: htmlContent },
-        ]);
+      // Add bot response to chat
+      addMessage(htmlContent);
+      // Store bot response in chat history array
+      setChatHistoryArray((prev) => [
+        ...prev,
+        { role: "bot", content: htmlContent },
+      ]);
       })
       .catch((error) => {
-        console.error(error);
-        setStatusVisible(false);
-        addMessage(
-          "I'm sorry, I encountered an error processing your request. Please try again later."
-        );
+      console.error(error);
+      setStatusVisible(false);
+      addMessage(
+        "I'm sorry, I encountered an error processing your request. Please try again later."
+      );
       });
   };
 

@@ -42,7 +42,6 @@ import Logo from './assets/blue-illustrated-doctor-logo.svg';
 import { useNavigate } from "react-router-dom";
 const api = Number(import.meta.env.VITE_ZEGO_KEY);
 const secret = import.meta.env.VITE_ZEGO_SECRET;
-console.log(api,secret);
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
