@@ -40,7 +40,9 @@ import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 import Logo from './assets/blue-illustrated-doctor-logo.svg';
 import { useNavigate } from "react-router-dom";
-
+const api = Number(import.meta.env.VITE_ZEGO_KEY);
+const secret = import.meta.env.VITE_ZEGO_SECRET;
+console.log(api,secret);
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
@@ -161,8 +163,8 @@ const PatientDashboard = () => {
   
   const joinMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
-    const appID = 1423263213; // Replace with your ZegoCloud App ID
-    const serverSecret = "df3d3783be462b08865e1a5c81f48be6"; // Replace with your ZegoCloud Server Secret
+    const appID = api; // Replace with your ZegoCloud App ID
+    const serverSecret = secret; // Replace with your ZegoCloud Server Secret
   
     // Generate Kit Token
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(

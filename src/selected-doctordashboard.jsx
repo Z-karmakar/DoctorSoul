@@ -4,6 +4,8 @@ import { faStarOfLife, faBell, faChevronDown, faThLarge, faComment, faCreditCard
 import Logo from './assets/blue-illustrated-doctor-logo.svg';
 import { supabase } from './supabaseClient';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+const api = Number(import.meta.env.VITE_ZEGO_KEY);
+const secret = import.meta.env.VITE_ZEGO_SECRET;
 const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
 
@@ -23,8 +25,8 @@ const DoctorDashboard = () => {
 
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
-    const appID = 1423263213; // Replace with your ZegoCloud App ID
-    const serverSecret = "df3d3783be462b08865e1a5c81f48be6"; // Replace with your ZegoCloud Server Secret
+    const appID = import.meta.env.VITE_ZEGO_KEY; // Replace with your ZegoCloud App ID
+    const serverSecret = import.meta.env.VITE_ZEGO_SECRET; // Replace with your ZegoCloud Server Secret
 
     // Generate Kit Token
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
