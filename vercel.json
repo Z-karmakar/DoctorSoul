@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "routes": [
+    { "src": "/(.*)", "status": 200, "headers": { "x-debug-route": "true" } }
+  ]
 }
