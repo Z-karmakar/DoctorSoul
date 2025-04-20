@@ -10,7 +10,6 @@ export default defineConfig({
   server: {
     historyApiFallback: true,
     server: {
-      port:5174,
       proxy: {
         '/auth': {
         target: 'http://localhost:4000',

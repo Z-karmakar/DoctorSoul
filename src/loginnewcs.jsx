@@ -78,7 +78,6 @@ const LoginNewCS = () => {
       if (response.ok) {
         setSuccess('Login successful! Redirecting...');
         localStorage.setItem('session', JSON.stringify(result.session));
-        navigate('/dashboard');
       } else {
         setError(result.error || 'Login failed');
       }
