@@ -30,7 +30,7 @@ const LoginNewCS = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: 'http://localhost:5173/Patient', // Update this to match your app's URL
+          redirectTo: 'https://doctor-soul.vercel.app/Patient', // Update this to match your app's URL
           queryParams: {
             prompt: 'select_account', // Forces the "Choose Account" screen
           },
