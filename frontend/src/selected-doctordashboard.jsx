@@ -25,8 +25,8 @@ const DoctorDashboard = () => {
 
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
-    const appID = import.meta.env.VITE_ZEGO_KEY; // Replace with your ZegoCloud App ID
-    const serverSecret = import.meta.env.VITE_ZEGO_SECRET; // Replace with your ZegoCloud Server Secret
+    const appID = api; // Replace with your ZegoCloud App ID
+    const serverSecret = secret; // Replace with your ZegoCloud Server Secret
 
     // Generate Kit Token
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
