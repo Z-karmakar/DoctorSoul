@@ -97,6 +97,15 @@ const HealthcareChat = () => {
             unread: 0,
             status: "online",
          },
+         {
+            id: 5,
+            name: "Olivia Wilson",
+            avatar: "👩",
+            lastMessage: "I need to reschedule my appointment",
+            time: "Yesterday",
+            unread: 0,
+            status: "online",
+         },
       ],
       nurses: [
          {
@@ -135,6 +144,15 @@ const HealthcareChat = () => {
             unread: 2,
             status: "offline",
          },
+         {
+            id: 5,
+            name: "Olivia Wilson",
+            avatar: "👩",
+            lastMessage: "I need to reschedule my appointment",
+            time: "Yesterday",
+            unread: 0,
+            status: "online",
+         }
       ],
       doctors: [
          {
@@ -173,11 +191,21 @@ const HealthcareChat = () => {
             unread: 0,
             status: "offline",
          },
+         {
+            id: 5,
+            name: "Dr. Olivia Wilson",
+            avatar: "👩",
+            lastMessage: "I need to reschedule my appointment",
+            time: "Yesterday",
+            unread: 0,
+            status: "online",
+         }
       ],
    };
 
-   // Sample chat messages for demonstration
-   const [chats, setChats] = useState({
+   // Sample messages for all user types
+
+   const defaultMessages = {
       patients: {
          1: [
             {
@@ -196,6 +224,212 @@ const HealthcareChat = () => {
                id: 3,
                sender: "user",
                text: "When should I take my medication?",
+               time: "10:30 AM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "Your antibiotic should be taken twice daily with food. Is that the medication you're referring to?",
+               time: "10:35 AM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "Yes, and also the pain medication. Should I take them together?",
+               time: "10:40 AM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "The pain medication can be taken every 6 hours as needed, but not more than 4 times daily. You can take it with the antibiotic if the timing aligns.",
+               time: "10:45 AM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "I'm also experiencing some stomach discomfort after taking the antibiotic.",
+               time: "10:50 AM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "That can happen with antibiotics. Try taking it with a full meal rather than a light snack. If the discomfort is severe or continues, please let me know.",
+               time: "10:55 AM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "Thank you, that's helpful. Should I complete the full course even if I feel better?",
+               time: "11:00 AM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "Yes, absolutely. It's essential to complete the entire course of antibiotics even if your symptoms improve. Stopping early can lead to recurring infection or antibiotic resistance.",
+               time: "11:05 AM",
+            },
+         ],
+         2: [
+            {
+               id: 1,
+               sender: "user",
+               text: "I've been experiencing severe headaches lately",
+               time: "11:05 AM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "I'm sorry to hear that. How long have you been having these headaches?",
+               time: "11:08 AM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "For about two weeks now, and they're getting worse",
+               time: "11:15 AM",
+            },
+         ],
+         3: [
+            {
+               id: 1,
+               sender: "user",
+               text: "Do I need to fast before my blood test tomorrow?",
+               time: "2:30 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Yes, please fast for at least 8 hours before your appointment. Water is fine though.",
+               time: "2:35 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "Thank you, I'll make sure to do that",
+               time: "2:40 PM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "Great. Is your appointment in the morning or afternoon tomorrow?",
+               time: "2:45 PM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "It's at 9:30 AM. So I should stop eating after midnight?",
+               time: "2:50 PM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "Yes, that would be perfect. No food after midnight, but please stay hydrated with water.",
+               time: "2:55 PM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Can I take my regular medications in the morning?",
+               time: "3:00 PM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "You can take most medications with a small sip of water, but hold off on any diabetes medications until after the test. Which medications are you currently taking?",
+               time: "3:05 PM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "I take lisinopril for blood pressure and a daily vitamin.",
+               time: "3:10 PM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "You can take the lisinopril with a small sip of water, but please skip the vitamin until after your blood work is complete. The vitamin could potentially affect certain test results.",
+               time: "3:15 PM",
+            },
+         ],
+         4: [
+            {
+               id: 1,
+               sender: "user",
+               text: "My knee pain is back again after physical therapy",
+               time: "4:10 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "I'm sorry to hear that. Can you describe the pain and when it occurs?",
+               time: "4:15 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "It hurts when I climb stairs or walk for longer than 10 minutes",
+               time: "4:22 PM",
+            },
+         ],
+         5: [
+            {
+               id: 1,
+               sender: "user",
+               text: "Is it normal to feel dizzy after taking the new medication?",
+               time: "9:45 AM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Some dizziness can be a side effect. How severe is it and when does it occur?",
+               time: "9:50 AM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "It happens about an hour after taking it and lasts for 30 minutes",
+               time: "9:55 AM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "That timing does align with when the medication reaches peak levels in your system. Is the dizziness mild or severe enough that you need to sit down?",
+               time: "10:00 AM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "It's moderate - I don't need to lie down, but I definitely feel unsteady when walking.",
+               time: "10:05 AM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "I suggest taking the medication right before bedtime instead, which might allow you to sleep through the worst of the side effects. Are you able to shift your dosing schedule?",
+               time: "10:10 AM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Yes, I can try that. Will the dizziness side effect diminish over time?",
+               time: "10:15 AM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "Many patients do find that side effects like dizziness subside after the first 1-2 weeks as your body adjusts to the medication. If it doesn't improve or worsens, we may need to consider alternatives.",
+               time: "10:20 AM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "Should I be concerned about driving while on this medication?",
+               time: "10:25 AM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "Given the dizziness you're experiencing, I would recommend avoiding driving for at least 2 hours after taking the medication. Once we see if the bedtime dosing helps and how your body adjusts over the next week, we can reassess this recommendation.",
                time: "10:30 AM",
             },
          ],
@@ -220,6 +454,212 @@ const HealthcareChat = () => {
                text: "Are there any side effects?",
                time: "9:30 AM",
             },
+            {
+               id: 4,
+               sender: "me",
+               text: "I think there might be some confusion. Were you asking about side effects of a medication? Or did you want to reschedule an appointment?",
+               time: "9:35 AM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "Sorry, I meant to reschedule my follow-up appointment for next week. I have a work conflict.",
+               time: "9:40 AM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "No problem at all. Let me check what availability we have. What days work best for you next week?",
+               time: "9:45 AM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Tuesday or Thursday afternoon would be ideal if possible.",
+               time: "9:50 AM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "We have an opening on Thursday at 2:15 PM or Tuesday at 3:30 PM. Would either of those work for you?",
+               time: "9:55 AM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "Thursday at 2:15 PM would be perfect. Thank you.",
+               time: "10:00 AM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "Great! I've rescheduled your appointment for Thursday at 2:15 PM. You'll receive a confirmation email shortly. Is there anything else you need help with today?",
+               time: "10:05 AM",
+            },
+         ],
+         2: [
+            {
+               id: 1,
+               sender: "user",
+               text: "How should I change my dressing at home?",
+               time: "1:05 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "I'd be happy to explain the process. Do you have the supplies we discussed?",
+               time: "1:10 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "Yes, I bought everything from the pharmacy yesterday",
+               time: "1:15 PM",
+            },
+         ],
+         3: [
+            {
+               id: 1,
+               sender: "user",
+               text: "My blood pressure reading was high this morning",
+               time: "8:20 AM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "What was the reading? And have you taken your medication today?",
+               time: "8:25 AM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "It was 160/95 and yes, I took my medication as prescribed",
+               time: "8:30 AM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "That is elevated. Were you feeling anxious or stressed when you took the reading? Sometimes that can affect the numbers.",
+               time: "8:35 AM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "I was rushing to get ready for work, so maybe a little stressed.",
+               time: "8:40 AM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "I suggest retaking your blood pressure after sitting quietly for 5 minutes. Make sure your arm is supported and at heart level. Could you do that and let me know the new reading?",
+               time: "8:45 AM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "I just retook it and it's 150/90 now. Still high but a bit better.",
+               time: "8:55 AM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "That's still elevated. Have you noticed any other symptoms like headache, dizziness, or vision changes? Also, have you been consistent with your low-sodium diet?",
+               time: "9:00 AM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "No other symptoms, but I did have pizza last night which probably had a lot of salt.",
+               time: "9:05 AM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "That could definitely contribute to the higher reading. Please continue your medication as prescribed, monitor your salt intake closely, and take your blood pressure again this evening and tomorrow morning. If it remains above 150/90, please call the office to speak with Dr. Johnson about possibly adjusting your medication.",
+               time: "9:10 AM",
+            },
+         ],
+         4: [
+            {
+               id: 1,
+               sender: "user",
+               text: "When will my test results be available?",
+               time: "3:40 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Let me check that for you. Which tests did you have done?",
+               time: "3:45 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "The blood work and urinalysis from Tuesday's appointment",
+               time: "3:50 PM",
+            },
+         ],
+         5: [
+            {
+               id: 1,
+               sender: "user",
+               text: "I think I might be having an allergic reaction to the antibiotic",
+               time: "7:10 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "What symptoms are you experiencing? This could be serious.",
+               time: "7:12 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "I have a rash on my arms and my face feels swollen",
+               time: "7:15 PM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "This sounds concerning. Are you having any difficulty breathing or tightness in your throat?",
+               time: "7:17 PM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "No trouble breathing yet, but the swelling seems to be getting worse",
+               time: "7:20 PM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "Please stop taking the antibiotic immediately. Given the facial swelling that's progressing, you should go to the emergency room right away. This could develop into a more severe reaction.",
+               time: "7:22 PM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Should I drive myself or call an ambulance?",
+               time: "7:25 PM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "If you have someone who can drive you immediately, that's fine. If you're alone or the swelling is spreading rapidly, please call 911. Do not wait to see if it gets better on its own.",
+               time: "7:27 PM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "My daughter can drive me. I'll head to the ER now.",
+               time: "7:30 PM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "That's good. Please update me after you've been seen. I'll also call ahead to the ER to let them know you're coming in with a suspected medication allergy. Be sure to bring the antibiotic with you so they know exactly what you were taking.",
+               time: "7:32 PM",
+            },
          ],
       },
       doctors: {
@@ -242,9 +682,218 @@ const HealthcareChat = () => {
                text: "Are there any side effects?",
                time: "9:30 AM",
             },
+            {
+               id: 4,
+               sender: "me",
+               text: "I notice there might be some confusion in our conversation. Were you asking about medication side effects or about rescheduling an appointment?",
+               time: "9:35 AM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "Sorry for the confusion. I meant to ask about the potential side effects of the procedure we discussed last time.",
+               time: "9:40 AM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "No problem. For the arthroscopic knee procedure, common side effects include temporary pain, swelling, and stiffness at the joint. Most patients can return to light activities within a week, though complete recovery takes 4-6 weeks.",
+               time: "9:45 AM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Is there a high risk of infection? That's my main concern.",
+               time: "9:50 AM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "The risk of infection is actually quite low, less than 1%. We take multiple precautions before, during, and after surgery to prevent infection. You'll also receive detailed care instructions for keeping the incision sites clean.",
+               time: "9:55 AM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "That's reassuring. Now about rescheduling, I need to move my surgery date due to a work commitment.",
+               time: "10:00 AM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "I understand. Let me check my surgical schedule. I have openings on the 15th and 22nd of next month. Would either of those dates work better with your schedule?",
+               time: "10:05 AM",
+            },
+         ],
+         2: [
+            {
+               id: 1,
+               sender: "user",
+               text: "Dr. Smith, I've reviewed the MRI results for patient #4382",
+               time: "11:30 AM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Thank you. What did you find in the imaging?",
+               time: "11:35 AM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "There's a small herniation at L4-L5 that could explain the symptoms",
+               time: "11:40 AM",
+            },
+         ],
+         3: [
+            {
+               id: 1,
+               sender: "user",
+               text: "Can you consult on a case in the ER?",
+               time: "2:15 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Yes, I can come down. What's the situation?",
+               time: "2:17 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "55-year-old male with chest pain and abnormal ECG",
+               time: "2:20 PM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "I'll be there in 5 minutes. Has troponin been drawn? And what exactly are you seeing on the ECG?",
+               time: "2:22 PM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "Troponin is slightly elevated at 0.09 and there's ST elevation in leads V2-V4.",
+               time: "2:25 PM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "That's concerning for anterior MI. Has the cath lab been notified yet? What's his pain level and has he received aspirin?",
+               time: "2:27 PM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Cath lab is on standby. Pain is 7/10, radiating to left arm. He's received 325mg aspirin and we've started IV nitro.",
+               time: "2:30 PM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "Good. Let's activate the cath lab now rather than waiting. I'll want a formal STEMI protocol initiated. Any contraindications to heparin or other relevant history I should know?",
+               time: "2:32 PM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "No contraindications. History of hypertension and hyperlipidemia. No previous cardiac events. Father had MI at age 60.",
+               time: "2:35 PM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "Understood. I'm coming down now and will assess him immediately. Please have his previous records pulled if available and let the cath lab know we'll likely be proceeding with primary PCI within the next 30 minutes.",
+               time: "2:37 PM",
+            },
+         ],
+         4: [
+            {
+               id: 1,
+               sender: "user",
+               text: "I'd like your opinion on this treatment plan before I finalize it",
+               time: "4:50 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "I'd be happy to review it. Can you share the details?",
+               time: "4:55 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "It's for the transplant patient in room 302. I'm considering reducing the immunosuppressants",
+               time: "5:00 PM",
+            },
+         ],
+         5: [
+            {
+               id: 1,
+               sender: "user",
+               text: "Are you available for the tumor board meeting tomorrow at 8?",
+               time: "5:30 PM",
+            },
+            {
+               id: 2,
+               sender: "me",
+               text: "Yes, I've blocked that time off. Which cases are we reviewing?",
+               time: "5:35 PM",
+            },
+            {
+               id: 3,
+               sender: "user",
+               text: "We have three complex lung cancer cases and one unusual melanoma presentation",
+               time: "5:40 PM",
+            },
+            {
+               id: 4,
+               sender: "me",
+               text: "Sounds interesting. Do you have the pathology reports for the melanoma case? I'd like to review it beforehand.",
+               time: "5:45 PM",
+            },
+            {
+               id: 5,
+               sender: "user",
+               text: "Yes, I'll send them over. The melanoma is amelanotic with unusual histological features that don't fit classic subtypes.",
+               time: "5:50 PM",
+            },
+            {
+               id: 6,
+               sender: "me",
+               text: "That's definitely worth discussing in detail. Has molecular testing been completed yet? I'd be particularly interested in BRAF status.",
+               time: "5:55 PM",
+            },
+            {
+               id: 7,
+               sender: "user",
+               text: "Still pending. The initial immunohistochemistry panel showed S100 and SOX10 positivity but HMB-45 negativity.",
+               time: "6:00 PM",
+            },
+            {
+               id: 8,
+               sender: "me",
+               text: "Interesting IHC profile. Let's make sure we have digital pathology slides available for review during the meeting. What about the lung cases? Any molecular findings there?",
+               time: "6:05 PM",
+            },
+            {
+               id: 9,
+               sender: "user",
+               text: "One has an EGFR exon 19 deletion, one has ALK rearrangement, and the third is KRAS G12C positive. All are adenocarcinomas.",
+               time: "6:10 PM",
+            },
+            {
+               id: 10,
+               sender: "me",
+               text: "Perfect, so we have targeted therapy options for all three. I'll review the latest trial data on KRAS G12C inhibitors before the meeting. There's promising new data on combination approaches I think we should consider for that patient.",
+               time: "6:15 PM",
+            },
          ],
       },
-   });
+   };
+
+   // Sample chat messages for demonstration
+   const [chats, setChats] = useState(defaultMessages);
 
    const handleSendMessage = () => {
       if (!message.trim() || !activeChat) return;

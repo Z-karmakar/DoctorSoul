@@ -4,11 +4,12 @@ import { faStarOfLife, faBell, faChevronDown, faThLarge, faComment, faCreditCard
 import Logo from './assets/blue-illustrated-doctor-logo.svg';
 import { supabase } from './supabaseClient';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { useNavigate } from 'react-router-dom'; 
 const api = Number(import.meta.env.VITE_ZEGO_KEY);
 const secret = import.meta.env.VITE_ZEGO_SECRET;
 const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -250,7 +251,7 @@ const DoctorDashboard = () => {
                         <div className="flex space-x-2">
                           <button
                             className="text-blue-500 hover:text-blue-700"
-                            onClick={() => (window.location.href = 'index.html')}
+                            onClick={() => navigate('/Chat')} 
                           >
                             <FontAwesomeIcon icon={faComment} />
                           </button>
@@ -293,7 +294,8 @@ const DoctorDashboard = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex space-x-2">
-                          <button className="text-blue-500 hover:text-blue-700">
+                          <button className="text-blue-500 hover:text-blue-700"
+                          onClick={() => navigate('/Chat')} >
                             <FontAwesomeIcon icon={faComment} />
                           </button>
                           <button className="text-green-500 hover:text-green-700">
@@ -335,7 +337,8 @@ const DoctorDashboard = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex space-x-2">
-                          <button className="text-blue-500 hover:text-blue-700">
+                          <button className="text-blue-500 hover:text-blue-700"
+                          onClick={() => navigate('/Chat')}>
                             <FontAwesomeIcon icon={faComment} />
                           </button>
                           <button className="text-green-500 hover:text-green-700">
