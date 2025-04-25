@@ -165,9 +165,8 @@ const PatientDashboard = () => {
     console.log("Navigation effect running");
     
     // Push initial state only if it doesn't exist
-    if (!window.history.state) {
-      window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
-    }
+    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
+    
   
     const handlePopState = (event) => {
       console.log("PopState event triggered", event.state);
@@ -183,9 +182,10 @@ const PatientDashboard = () => {
       }
   
       // If we're on the patient page (either from state or default)
-      if (!event.state || event.state.page === 'Patient') {
+      if (!event.state) {
         console.log("Navigating to login");
         navigate('/', { replace: true });
+        return;
       }
     };
   
