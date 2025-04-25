@@ -185,9 +185,9 @@ const PatientDashboard = () => {
       } else {
         console.log("Video container does not exist"); // Debug log
       }
-  
+      console.log(event.state,event.state.page);
       // If no state or on the Patient page, navigate to login
-      if (!event.state || event.state.page === 'Patient') {
+      if (!event.state || event.state.page !== 'Patient') {
         console.log("Navigating to Home page"); // Debug log
         navigate('/', { replace: true });
       }
