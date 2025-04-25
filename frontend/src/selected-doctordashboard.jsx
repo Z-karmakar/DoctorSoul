@@ -19,7 +19,7 @@ const DoctorDashboard = () => {
         console.log(session.user.email);
         setUserEmail(session.user.email); // Set the logged-in user's email
       }else {
-        navigate('/');
+        navigate('/',{replace:true});
       }
     };
 
@@ -50,7 +50,7 @@ const DoctorDashboard = () => {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
       onLeaveRoom: () => {
-        navigate('/Patient');
+        navigate('/Patient',{replace:true});
       }
     });
 
