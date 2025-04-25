@@ -189,7 +189,7 @@ const PatientDashboard = () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
     const appID = api; // Replace with your ZegoCloud App ID
     const serverSecret = secret; // Replace with your ZegoCloud Server Secret
-    window.history.pushState({ from: 'meeting' }, '');
+    window.history.pushState({ from: 'meeting' }, '', window.location.pathname);
     // Generate Kit Token
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
