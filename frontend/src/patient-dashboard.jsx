@@ -159,7 +159,7 @@ const PatientDashboard = () => {
   
     fetchSession();
   }, []);
-
+  
   useEffect(() => {
     // Push initial state when component mounts
     const initialState = { page: 'Patient' };
@@ -186,41 +186,37 @@ const PatientDashboard = () => {
     
   
   const joinMeeting = async () => {
-    const roomID = "test-room-1234";
-    const appID = api;
-    const serverSecret = secret;
-  
-    // Add state to history before joining the meeting
+    const roomID = "test-room-1234"; // Shared room ID for testing
+    const appID = api; // Replace with your ZegoCloud App ID
+    const serverSecret = secret; // Replace with your ZegoCloud Server Secret
     window.history.pushState({ from: 'meeting' }, '');
-  
+    // Generate Kit Token
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
       roomID,
-      userEmail?.replace(/[@.]/g, "_") || "default_user",
-      "Patient"
+      userEmail.replace(/[@.]/g, "_"), // Use logged-in patient's email as userID
+      "Patient" // Replace with the patient's name if available
     );
   
+    // Create instance object from Kit Token
     const zp = ZegoUIKitPrebuilt.create(kitToken);
   
+    // Join the call
     zp.joinRoom({
-      container: document.getElementById("videoContainer"),
+      container: document.getElementById("videoContainer"), // Add a container for the video call
       scenario: {
-        mode: ZegoUIKitPrebuilt.OneONoneCall,
+        mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
-      showPreJoinView: false, // Disable pre-join view
       onLeaveRoom: () => {
         // Navigate back to Patient page when leaving the room
         navigate('/Patient', { replace: true });
       },
-      showLeavingView: false, // Disable leaving view
-      turnOnCameraWhenJoining: true,
-      turnOnMicrophoneWhenJoining: true,
-      showUserList: false // Optional: hide user list
     });
   
     console.log(`Patient joined meeting with Room ID: ${roomID}`);
   };
+  
   return (
     <div className="bg-gray-100">
       {/* Header */}
