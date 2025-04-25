@@ -159,6 +159,17 @@ const PatientDashboard = () => {
   
     fetchSession();
   }, []);
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      navigate("/", { replace: true });
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+        window.removeEventListener("popstate", handlePopState);
+    };
+  },[navigate]);
+    
   
   const joinMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
