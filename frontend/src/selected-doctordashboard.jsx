@@ -24,7 +24,7 @@ const DoctorDashboard = () => {
     };
 
     fetchSession();
-  }, []);
+  }, [navigate]);
 
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
