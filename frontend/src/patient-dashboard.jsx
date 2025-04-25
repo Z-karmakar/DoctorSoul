@@ -165,7 +165,7 @@ const PatientDashboard = () => {
     console.log("Navigation effect running");
     
     // Push initial state when component mounts
-    window.history.pushState({ page: 'patient' }, '', window.location.pathname);
+    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
   
     const handlePopState = (event) => {
       console.log("PopState event triggered", event.state);
