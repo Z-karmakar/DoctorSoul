@@ -223,6 +223,23 @@ const PatientDashboard = () => {
     console.log(`Patient joined meeting with Room ID: ${roomID}`);
   };
   
+  useEffect(() => {
+  
+    const handlePopState = (event) => {
+      // If state is null (back button pressed) or different page
+      if (!event.state || event.state.page !== 'meeting') {
+        // Prevent default navigation
+        event.preventDefault();
+        // Navigate to login
+        navigate('/', { replace: true });
+        return;
+        }
+      };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  },[navigate]);
   return (
     <div className="bg-gray-100">
       {/* Header */}
