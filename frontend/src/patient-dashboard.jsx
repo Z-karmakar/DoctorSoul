@@ -159,20 +159,30 @@ const PatientDashboard = () => {
   
     fetchSession();
   }, []);
+  
   useEffect(() => {
-    window.history.pushState({ page: 'Patient' }, '');
-
+    // Push initial state when component mounts
+    const initialState = { page: 'Patient' };
+    window.history.pushState(initialState, '', window.location.pathname);
+  
     const handlePopState = (event) => {
-      console.log(event.state);
-      if(!event.state){
-        navigate("/", { replace: true });
+      // If state is null (back button pressed) or different page
+      if (!event.state || event.state.page !== 'Patient') {
+        // Prevent default navigation
+        event.preventDefault();
+        // Navigate to login
+        navigate('/', { replace: true });
+        return;
       }
     };
-    window.addEventListener("popstate", handlePopState);
+  
+    window.addEventListener('popstate', handlePopState);
+  
+    // Cleanup
     return () => {
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener('popstate', handlePopState);
     };
-  },[navigate]);
+  }, [navigate]);
     
   
   const joinMeeting = async () => {
