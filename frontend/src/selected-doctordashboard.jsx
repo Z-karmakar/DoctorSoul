@@ -50,7 +50,7 @@ const DoctorDashboard = () => {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
       onLeaveRoom: () => {
-        navigate('/patient');
+        navigate('/Patient');
       }
     });
 
