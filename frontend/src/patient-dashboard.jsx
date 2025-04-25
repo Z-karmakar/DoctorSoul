@@ -181,7 +181,7 @@ const PatientDashboard = () => {
         window.location.href = '/Patient';
       } 
       // If on patient page and back button pressed
-      else if (event.state?.page === 'patient') {
+      else if (event.state?.page === 'Patient') {
         console.log("On patient page, going to login");
         navigate('/', { replace: true });
       }
