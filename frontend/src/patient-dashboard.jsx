@@ -163,23 +163,30 @@ const PatientDashboard = () => {
   // Add this useEffect for navigation
   useEffect(() => {
     console.log("Navigation effect running");
-
+    
+    // Push initial state when component mounts
+    window.history.pushState({ page: 'patient' }, '', window.location.pathname);
+  
     const handlePopState = (event) => {
-      console.log("PopState event triggered");
+      console.log("PopState event triggered", event.state);
       const videoContainer = document.getElementById("videoContainer");
       
-      // If we're in a meeting
-      if (videoContainer && videoContainer.children.length > 0) {
-        console.log("In meeting, cleaning up");
-        videoContainer.innerHTML = '';
-        videoContainer.remove();
+      // If coming from meeting
+      if (event.state?.from === 'meeting') {
+        console.log("Coming from meeting");
+        if (videoContainer) {
+          videoContainer.innerHTML = '';
+          videoContainer.remove();
+        }
         window.location.href = '/Patient';
-      } else {
-        console.log("Not in meeting, going to login");
+      } 
+      // If on patient page and back button pressed
+      else if (event.state?.page === 'patient') {
+        console.log("On patient page, going to login");
         navigate('/', { replace: true });
       }
     };
-
+  
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [navigate]);
