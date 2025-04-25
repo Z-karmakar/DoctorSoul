@@ -161,28 +161,35 @@ const PatientDashboard = () => {
   }, []);
   
   useEffect(() => {
-    // Push initial state when component mounts
-    const initialState = { page: 'Patient' };
-    window.history.pushState(initialState, '', window.location.pathname);
+    console.log("Navigation effect running"); // Debug log
   
     const handlePopState = (event) => {
-      // Check if we're in a meeting
+      console.log("PopState event triggered"); // Debug log
+      console.log("Event state:", event.state); // Debug log
+      
       const videoContainer = document.getElementById("videoContainer");
+      console.log("Video container:", videoContainer?.children.length); // Debug log
+  
       if (videoContainer && videoContainer.children.length > 0) {
-        // We're in a meeting, clean up and go to Patient page
-        console.log(1);
+        console.log("In meeting, cleaning up"); // Debug log
+        videoContainer.innerHTML = ''; // Clear container contents
         videoContainer.remove();
-        window.location.replace('/Patient');
+        window.location.reload(); // Force reload to clear meeting state
       } else {
-        // Normal back button behavior - go to login
-        console.log(2);
+        console.log("Not in meeting, going to login"); // Debug log
         navigate('/', { replace: true });
       }
     };
   
+    // Add popstate listener
     window.addEventListener('popstate', handlePopState);
   
+    // Push initial state
+    const initialState = { page: 'Patient' };
+    window.history.pushState(initialState, '', window.location.pathname);
+  
     return () => {
+      console.log("Cleaning up navigation effect"); // Debug log
       window.removeEventListener('popstate', handlePopState);
     };
   }, [navigate]);
