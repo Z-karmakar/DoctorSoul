@@ -170,10 +170,12 @@ const PatientDashboard = () => {
       const videoContainer = document.getElementById("videoContainer");
       if (videoContainer && videoContainer.children.length > 0) {
         // We're in a meeting, clean up and go to Patient page
+        console.log(1);
         videoContainer.remove();
         window.location.replace('/Patient');
       } else {
         // Normal back button behavior - go to login
+        console.log(2);
         navigate('/', { replace: true });
       }
     };
