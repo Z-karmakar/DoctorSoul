@@ -4,13 +4,13 @@ import { faStarOfLife, faBell, faChevronDown, faThLarge, faComment, faCreditCard
 import Logo from './assets/blue-illustrated-doctor-logo.svg';
 import { supabase } from './supabaseClient';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import { useNavigate,useLocation } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 const api = Number(import.meta.env.VITE_ZEGO_KEY);
 const secret = import.meta.env.VITE_ZEGO_SECRET;
 const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  
   useEffect(() => {
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -27,21 +27,14 @@ const DoctorDashboard = () => {
 
   useEffect(() => {
     const handlePopState = (event) => {
-      event.preventDefault();
-      const from = event?.state?.from;
-      
-      if (location.pathname.includes('/dashboard')) {
-        navigate('/Patient');
-      } else {
-        navigate('/');
-      }
+      navigate("/", { replace: true });
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
-  }, [navigate, location]);
+  }, [navigate]);
 
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
