@@ -162,35 +162,51 @@ const PatientDashboard = () => {
   
   // Add this useEffect for navigation
   useEffect(() => {
-    console.log("Navigation effect running");
-    
-    // Push initial state only if it doesn't exist
-    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
-    
+    console.log("Navigation effect running"); // Debug log
   
     const handlePopState = (event) => {
-      console.log("PopState event triggered", event.state);
-      const videoContainer = document.getElementById("videoContainer");
+      console.log("PopState event triggered"); // Debug log
+      console.log("Event state:", event.state); // Debug log
   
-      // If we have a video container with content, we're in a meeting
-      if (videoContainer && videoContainer.children.length > 0) {
-        console.log("Cleaning up video container");
-        videoContainer.innerHTML = '';
-        videoContainer.remove();
-        window.location.replace('/Patient');
-        return;
+      // Check if the video container exists
+      const videoContainer = document.getElementById("videoContainer");
+      if (videoContainer) {
+        console.log("Video container exists"); // Debug log
+        console.log("Video container children count:", videoContainer.children.length); // Debug log
+  
+        // If in a meeting (video container has children)
+        if (videoContainer.children.length > 0) {
+          console.log("In meeting, cleaning up"); // Debug log
+          videoContainer.innerHTML = ''; // Clear container contents
+          videoContainer.remove(); // Remove the container
+          window.location.href = '/Patient'; // Reload and navigate to Patient
+          return;
+        }
+      } else {
+        console.log("Video container does not exist"); // Debug log
       }
   
-      // If we're on the patient page (either from state or default)
-      if (!event.state) {
-        console.log("Navigating to login");
+      // If no state or on the Patient page, navigate to login
+      if (!event.state || event.state.page === 'Patient') {
+        console.log("Navigating to Home page"); // Debug log
         navigate('/', { replace: true });
-        return;
       }
     };
   
+    // Add popstate listener
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+  
+    // Push initial state
+    if (!window.history.state) {
+      const initialState = { page: 'Patient' };
+      window.history.pushState(initialState, '', window.location.pathname);
+      console.log("Initial state pushed:", initialState); // Debug log
+    }
+  
+    return () => {
+      console.log("Cleaning up navigation effect"); // Debug log
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, [navigate]);
 
   // Update the joinMeeting function
@@ -227,6 +243,7 @@ const PatientDashboard = () => {
           videoContainer.remove();
         }
         window.location.href = '/Patient';
+        window.location.reload();
       }
     });
 
