@@ -25,17 +25,6 @@ const DoctorDashboard = () => {
     fetchSession();
   }, []);
 
-  useEffect(() => {
-    const handlePopState = (event) => {
-      navigate("/", { replace: true });
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [navigate]);
-
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
     const appID = api; // Replace with your ZegoCloud App ID
