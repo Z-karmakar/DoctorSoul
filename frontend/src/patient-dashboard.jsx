@@ -210,7 +210,7 @@ const PatientDashboard = () => {
       },
       onLeaveRoom: () => {
         // Navigate back to Patient page when leaving the room
-        navigate('/Patient', { replace: true });
+        window.location.href = '/Patient';
       },
     });
   
