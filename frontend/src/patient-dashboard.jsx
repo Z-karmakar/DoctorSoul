@@ -160,62 +160,48 @@ const PatientDashboard = () => {
     fetchSession();
   }, []);
   
+  // Add this useEffect for navigation
   useEffect(() => {
-    console.log("Navigation effect running"); // Debug log
-  
+    console.log("Navigation effect running");
+
     const handlePopState = (event) => {
-      console.log("PopState event triggered"); // Debug log
-      console.log("Event state:", event.state); // Debug log
-      
+      console.log("PopState event triggered");
       const videoContainer = document.getElementById("videoContainer");
-      console.log("Video container:", videoContainer?.children.length); // Debug log
-  
+      
+      // If we're in a meeting
       if (videoContainer && videoContainer.children.length > 0) {
-        console.log("In meeting, cleaning up"); // Debug log
-        videoContainer.innerHTML = ''; // Clear container contents
+        console.log("In meeting, cleaning up");
+        videoContainer.innerHTML = '';
         videoContainer.remove();
-        window.location.reload(); // Force reload to clear meeting state
+        window.location.href = '/Patient';
       } else {
-        console.log("Not in meeting, going to login"); // Debug log
+        console.log("Not in meeting, going to login");
         navigate('/', { replace: true });
       }
     };
-  
-    // Add popstate listener
+
     window.addEventListener('popstate', handlePopState);
-  
-    // Push initial state
-    const initialState = { page: 'Patient' };
-    window.history.pushState(initialState, '', window.location.pathname);
-  
-    return () => {
-      console.log("Cleaning up navigation effect"); // Debug log
-      window.removeEventListener('popstate', handlePopState);
-    };
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [navigate]);
-    
-  
+
+  // Update the joinMeeting function
   const joinMeeting = async () => {
     const roomID = "test-room-1234";
     const appID = api;
     const serverSecret = secret;
-  
-    // Push meeting state before joining
+
+    // Create and add video container if it doesn't exist
+    let videoContainer = document.getElementById("videoContainer");
+    if (!videoContainer) {
+      videoContainer = document.createElement('div');
+      videoContainer.id = "videoContainer";
+      videoContainer.className = "w-full h-[600px] bg-gray-100 rounded-lg mb-6";
+      document.body.appendChild(videoContainer);
+    }
+
+    // Push state before joining meeting
     window.history.pushState({ from: 'meeting' }, '', window.location.pathname);
-  
-    // Add popstate listener specifically for meeting
-    const handleMeetingPopState = () => {
-      const container = document.getElementById("videoContainer");
-      if (container) {
-        container.remove();
-      }
-      window.location.replace('/Patient');
-      // Remove this listener after it's used
-      window.removeEventListener('popstate', handleMeetingPopState);
-    };
-  
-    window.addEventListener('popstate', handleMeetingPopState);
-  
+
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
@@ -223,32 +209,28 @@ const PatientDashboard = () => {
       userEmail.replace(/[@.]/g, "_"),
       "Patient"
     );
-  
+
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-  
+
     zp.joinRoom({
-      container: document.getElementById("videoContainer"),
+      container: videoContainer,
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall,
       },
       showPreJoinView: true,
       showLeavingView: true,
       onLeaveRoom: () => {
-        // Cleanup
-        console.log("leave");
-        const container = document.getElementById("videoContainer");
-        if (container) {
-          container.remove();
+        console.log("Leaving room");
+        if (videoContainer) {
+          videoContainer.innerHTML = '';
+          videoContainer.remove();
         }
-        // Force a reload of the Patient component
-        window.location.replace('/Patient');
-        // Remove the popstate listener when leaving normally
-        window.removeEventListener('popstate', handleMeetingPopState);
-      },
+        window.location.href = '/Patient';
+      }
     });
-  
+
     console.log(`Patient joined meeting with Room ID: ${roomID}`);
-  };
+    };
   
 
   return (
