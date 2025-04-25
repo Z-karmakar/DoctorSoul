@@ -160,6 +160,8 @@ const PatientDashboard = () => {
     fetchSession();
   }, []);
   useEffect(() => {
+    window.history.pushState({ page: 'Patient' }, '');
+
     const handlePopState = (event) => {
       if(!event.state){
         navigate("/", { replace: true });
