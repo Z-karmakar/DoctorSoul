@@ -209,8 +209,14 @@ const PatientDashboard = () => {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
       onLeaveRoom: () => {
-        // Navigate back to Patient page when leaving the room
-        window.location.href = '/Patient';
+        // Cleanup
+      const container = document.getElementById("videoContainer");
+      if (container) {
+        container.remove();
+      }
+      
+      // Force a reload of the Patient component
+      window.location.replace('/Patient');
       },
     });
   
