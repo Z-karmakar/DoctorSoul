@@ -164,25 +164,27 @@ const PatientDashboard = () => {
   useEffect(() => {
     console.log("Navigation effect running");
     
-    // Push initial state when component mounts
-    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
+    // Push initial state only if it doesn't exist
+    if (!window.history.state) {
+      window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
+    }
   
     const handlePopState = (event) => {
       console.log("PopState event triggered", event.state);
       const videoContainer = document.getElementById("videoContainer");
-      
-      // If coming from meeting
-      if (event.state?.from === 'meeting') {
-        console.log("Coming from meeting");
-        if (videoContainer) {
-          videoContainer.innerHTML = '';
-          videoContainer.remove();
-        }
-        window.location.href = '/Patient';
-      } 
-      // If on patient page and back button pressed
-      else if (event.state?.page === 'Patient') {
-        console.log("On patient page, going to login");
+  
+      // If we have a video container with content, we're in a meeting
+      if (videoContainer && videoContainer.children.length > 0) {
+        console.log("Cleaning up video container");
+        videoContainer.innerHTML = '';
+        videoContainer.remove();
+        window.location.replace('/Patient');
+        return;
+      }
+  
+      // If we're on the patient page (either from state or default)
+      if (!event.state || event.state.page === 'Patient') {
+        console.log("Navigating to login");
         navigate('/', { replace: true });
       }
     };
@@ -199,12 +201,6 @@ const PatientDashboard = () => {
 
     // Create and add video container if it doesn't exist
     let videoContainer = document.getElementById("videoContainer");
-    if (!videoContainer) {
-      videoContainer = document.createElement('div');
-      videoContainer.id = "videoContainer";
-      videoContainer.className = "w-full h-[600px] bg-gray-100 rounded-lg mb-6";
-      document.body.appendChild(videoContainer);
-    }
 
     // Push state before joining meeting
     window.history.pushState({ from: 'meeting' }, '', window.location.pathname);
@@ -224,8 +220,6 @@ const PatientDashboard = () => {
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall,
       },
-      showPreJoinView: true,
-      showLeavingView: true,
       onLeaveRoom: () => {
         console.log("Leaving room");
         if (videoContainer) {
