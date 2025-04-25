@@ -10,16 +10,6 @@ const secret = import.meta.env.VITE_ZEGO_SECRET;
 const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
-  console.log(1);
-  useEffect(() => {
-    const user = localStorage.getItem('authToken');
-    if (!user || user === 'undefined') {
-      navigate('/');
-      console.log(2);
-    }
-    console.log(3);
-  }, [navigate]);
-
   useEffect(() => {
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
@@ -33,6 +23,11 @@ const DoctorDashboard = () => {
 
     fetchSession();
   }, []);
+  navigate('/', {
+    state: {
+      canGoBack: true
+    },
+  });
 
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
