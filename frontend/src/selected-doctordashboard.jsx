@@ -11,6 +11,20 @@ const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
+    // Handle back button press
+    const handleBackButton = (e) => {
+      e.preventDefault();
+      window.location.href = '/';
+    };
+  
+    window.addEventListener('popstate', handleBackButton);
+  
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
+  
+  useEffect(() => {
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
@@ -23,9 +37,7 @@ const DoctorDashboard = () => {
 
     fetchSession();
   }, []);
-  window.onpopstate = () => {
-    navigate("/");
-  }
+  
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
     const appID = api; // Replace with your ZegoCloud App ID
@@ -43,13 +55,19 @@ const DoctorDashboard = () => {
     // Create instance object from Kit Token
     const zp = ZegoUIKitPrebuilt.create(kitToken);
 
+     // Add state to history before joining room
+     window.history.pushState({ from: 'meeting' }, '');
+
     // Start the call
     zp.joinRoom({
       container: document.getElementById("videoContainer"), // Add a container for the video call
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
-      
+      showPreJoinView: false,
+      onLeaveRoom: () => {
+        window.location.href = '/Patient';
+      }
     });
 
     console.log(`Doctor joined meeting with Room ID: ${roomID}`);
