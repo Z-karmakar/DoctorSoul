@@ -190,7 +190,7 @@ const PatientDashboard = () => {
       if (!event.state || event.state.page === 'Patient') {
         console.log(event.state,event.state.page);
         console.log("Navigating to Home page"); // Debug log
-        navigate('/', { replace: true });
+        window.location.href = '/Patient'; 
       }
     };
   
