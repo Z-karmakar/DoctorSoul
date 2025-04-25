@@ -163,6 +163,7 @@ const PatientDashboard = () => {
     window.history.pushState({ page: 'Patient' }, '');
 
     const handlePopState = (event) => {
+      console.log(event.state);
       if(!event.state){
         navigate("/", { replace: true });
       }
