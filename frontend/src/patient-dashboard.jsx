@@ -163,7 +163,7 @@ const PatientDashboard = () => {
   // Add this useEffect for navigation
   useEffect(() => {
     console.log("Navigation effect running"); // Debug log
-  
+    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
     const handlePopState = (event) => {
       console.log("PopState event triggered"); // Debug log
       console.log("Event state:", event.state); // Debug log
