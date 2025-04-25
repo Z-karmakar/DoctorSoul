@@ -11,10 +11,6 @@ const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      navigate('/Patient');
-    };
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
@@ -22,19 +18,14 @@ const DoctorDashboard = () => {
       } else if (session) {
         console.log(session.user.email);
         setUserEmail(session.user.email); // Set the logged-in user's email
-      }else {
-        navigate('/',{replace:true});
       }
     };
 
     fetchSession();
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [navigate]);
-
+  }, []);
+  window.onpopstate = () => {
+    navigate("/");
+  }
   const startMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
     const appID = api; // Replace with your ZegoCloud App ID
@@ -58,9 +49,7 @@ const DoctorDashboard = () => {
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
-      onLeaveRoom: () => {
-        navigate('/Patient',{replace:true});
-      }
+      
     });
 
     console.log(`Doctor joined meeting with Room ID: ${roomID}`);
