@@ -154,22 +154,14 @@ const PatientDashboard = () => {
         console.error("Error fetching session:", error.message);
       } else if (session) {
         setUserEmail(session.user.email); // Set the logged-in user's email
+      }else{
+        navigate("/", { replace: true });
       }
     };
   
     fetchSession();
   }, []);
 
-  useEffect(() => {
-    const handlePopState = (event) => {
-      navigate("/", { replace: true });
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-        window.removeEventListener("popstate", handlePopState);
-    };
-  },[navigate]);
-    
   
   const joinMeeting = async () => {
     const roomID = "test-room-1234"; // Shared room ID for testing
