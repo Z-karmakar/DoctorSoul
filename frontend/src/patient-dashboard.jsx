@@ -166,19 +166,20 @@ const PatientDashboard = () => {
     window.history.pushState(initialState, '', window.location.pathname);
   
     const handlePopState = (event) => {
-      // If state is null (back button pressed) or different page
-      if (!event.state || event.state.page !== 'Patient') {
-        // Prevent default navigation
-        event.preventDefault();
-        // Navigate to login
+      // Check if we're in a meeting
+      const videoContainer = document.getElementById("videoContainer");
+      if (videoContainer && videoContainer.children.length > 0) {
+        // We're in a meeting, clean up and go to Patient page
+        videoContainer.remove();
+        window.location.replace('/Patient');
+      } else {
+        // Normal back button behavior - go to login
         navigate('/', { replace: true });
-        return;
       }
     };
   
     window.addEventListener('popstate', handlePopState);
   
-    // Cleanup
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
@@ -225,6 +226,7 @@ const PatientDashboard = () => {
       showLeavingView: true,
       onLeaveRoom: () => {
         // Cleanup
+        console.log("leave");
         const container = document.getElementById("videoContainer");
         if (container) {
           container.remove();
