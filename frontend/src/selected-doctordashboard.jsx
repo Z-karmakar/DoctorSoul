@@ -18,6 +18,8 @@ const DoctorDashboard = () => {
       } else if (session) {
         console.log(session.user.email);
         setUserEmail(session.user.email); // Set the logged-in user's email
+      }else {
+        navigate('/');
       }
     };
 
@@ -47,6 +49,9 @@ const DoctorDashboard = () => {
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
+      onLeaveRoom: () => {
+        navigate('/patient');
+      }
     });
 
     console.log(`Doctor joined meeting with Room ID: ${roomID}`);
