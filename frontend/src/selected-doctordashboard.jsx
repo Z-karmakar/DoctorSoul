@@ -11,6 +11,10 @@ const DoctorDashboard = () => {
   const [userEmail, setUserEmail] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      navigate('/Patient');
+    };
     const fetchSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
       if (error) {
@@ -24,6 +28,11 @@ const DoctorDashboard = () => {
     };
 
     fetchSession();
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [navigate]);
 
   const startMeeting = async () => {
