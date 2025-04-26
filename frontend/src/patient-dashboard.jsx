@@ -159,69 +159,16 @@ const PatientDashboard = () => {
   
     fetchSession();
   }, []);
-  
-  // Add this useEffect for navigation
-  useEffect(() => {
-    console.log("Navigation effect running"); // Debug log
-    window.history.pushState({ page: 'Patient' }, '', window.location.pathname);
-    const handlePopState = (event) => {
-      console.log("PopState event triggered"); // Debug log
-      console.log("Event state:", event.state); // Debug log
-  
-      // Check if the video container exists
-      const videoContainer = document.getElementById("videoContainer");
-      if (videoContainer) {
-        console.log("Video container exists"); // Debug log
-        console.log("Video container children count:", videoContainer.children.length); // Debug log
-  
-        // If in a meeting (video container has children)
-        if (videoContainer.children.length > 0) {
-          console.log("In meeting, cleaning up"); // Debug log
-          videoContainer.innerHTML = ''; // Clear container contents
-          videoContainer.remove(); // Remove the container
-          window.location.href = '/Patient'; // Reload and navigate to Patient
-          return;
-        }
-      } else {
-        console.log("Video container does not exist"); // Debug log
-      }
-  
-      // If no state or on the Patient page, navigate to login
-      if (!event.state || event.state.page === 'Patient') {
-        console.log(event.state,event.state.page);
-        console.log("Navigating to Home page"); // Debug log
-        window.location.href = '/Patient'; 
-      }
-    };
-  
-    // Add popstate listener
-    window.addEventListener('popstate', handlePopState);
-  
-    // Push initial state
-    if (!window.history.state) {
-      const initialState = { page: 'Patient' };
-      window.history.pushState(initialState, '', window.location.pathname);
-      console.log("Initial state pushed:", initialState); // Debug log
-    }
-  
-    return () => {
-      console.log("Cleaning up navigation effect"); // Debug log
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [navigate]);
 
   // Update the joinMeeting function
   const joinMeeting = async () => {
     const roomID = "test-room-1234";
     const appID = api;
     const serverSecret = secret;
-
+  
     // Create and add video container if it doesn't exist
     let videoContainer = document.getElementById("videoContainer");
-
-    // Push state before joining meeting
-    window.history.pushState({ from: 'meeting' }, '', window.location.pathname);
-
+    
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
@@ -229,27 +176,18 @@ const PatientDashboard = () => {
       userEmail.replace(/[@.]/g, "_"),
       "Patient"
     );
-
+  
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-
+  
     zp.joinRoom({
       container: videoContainer,
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall,
       },
-      onLeaveRoom: () => {
-        console.log("Leaving room");
-        if (videoContainer) {
-          videoContainer.innerHTML = '';
-          videoContainer.remove();
-        }
-        window.location.href = '/Patient';
-        window.location.reload();
-      }
     });
-
+  
     console.log(`Patient joined meeting with Room ID: ${roomID}`);
-    };
+  };
   
 
   return (

@@ -41,14 +41,24 @@ const DoctorDashboard = () => {
 
     // Create instance object from Kit Token
     const zp = ZegoUIKitPrebuilt.create(kitToken);
-
+    // Create and add video container if it doesn't exist
+    let videoContainer = document.getElementById("videoContainer");
+    
     // Start the call
     zp.joinRoom({
       container: document.getElementById("videoContainer"), // Add a container for the video call
       scenario: {
         mode: ZegoUIKitPrebuilt.OneONoneCall, // For 1-on-1 calls
       },
-      
+      onLeaveRoom: () => {
+        console.log("Leaving room"); // Debug log
+        if (videoContainer) {
+          videoContainer.innerHTML = '';
+          videoContainer.remove();
+        }
+        window.history.replaceState({ page: 'Patient' }, '', '/Patient'); // Replace state to avoid looping
+        window.location.reload(); // Reload and navigate to Patient
+      }
     });
 
     console.log(`Doctor joined meeting with Room ID: ${roomID}`);
